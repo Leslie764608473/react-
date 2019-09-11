@@ -6,11 +6,14 @@ export default class App extends React.Component{
     render() {
         return (
             <Router>
-                {
-                    routes.map((route,index)=>{
-                        return <Route {...route} key={index}/>
-                    })
-                }
+                <Switch>
+                    {
+                        routes.map((route,index)=>{
+                            return <Route {...route} key={index}/>
+                        })
+                    }
+                </Switch>
+
             </Router>
         );
     }

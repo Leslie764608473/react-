@@ -6,12 +6,22 @@
 //对处理数据的方法进行整合
 import { combineReducers } from 'redux'
 
-function xxx(prevState = {},action) {
+import { SAVE_USER } from './action-types'
+
+//初始化状态数据
+const state = {
+    token:'',
+    user:{}
+}
+
+function user(prevState = state,action) {
     switch (action.type) {
+        case SAVE_USER:
+            return action.data
         default:
             return prevState
     }
 }
 export default combineReducers({
-    xxx
+    user:user
 })
