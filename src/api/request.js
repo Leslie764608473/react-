@@ -11,6 +11,7 @@
 import store from '../redux/store'
 import axios from 'axios'
 import { message } from 'antd'
+import { setItem,getItem,removeItem } from '../utils/storage'
 //创建一个axios实例
 const instance = axios.create({
     baseURL:'http://localhost:3000/api',
@@ -36,7 +37,6 @@ instance.interceptors.request.use(
 //响应拦截器
 instance.interceptors.response.use(
     (response)=>{
-        console.log(111111111111)
         const result = response.data
         if (result.status === 0 ){
             //登陆成功

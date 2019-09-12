@@ -1,13 +1,16 @@
 import React from 'react';
-import {Form, Icon, Input, Button, Checkbox,message } from 'antd'
+import { Form, Icon, Input, Button, Checkbox,message } from 'antd'
 // import axios from 'axios'
-import { reqUser } from '../../api/index'
+import { reqUser } from '../../api'
 import { connect } from 'react-redux'
 import logo from './logo.png'
+import  withCheckLogin from '../with-check-login/index'
 import { saveUser } from '../../redux/action-creators'
 
 import './index.less'
 
+
+@withCheckLogin
 //这个高阶组件是要把redux里的属性和方法
 //放到这个组件的props属性上
 @connect(
@@ -93,10 +96,10 @@ class Login extends React.Component {
                         //跳转到localhost：3000/
                         this.props.history.replace('/')
 
-                }).catch((err)=>{
-                    //请求数据出错
-                    console.log(err)
-                    message.error('未知错误，请稍后重试');
+                }).catch(()=>{
+                    //清空密码
+                    console.log(this)
+                    this.props.form.resetFields(['password'])
                 })
             }else {
                 //表单验证失败
