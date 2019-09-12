@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Icon, Input, Button, Checkbox,message } from 'antd'
-import axios from 'axios'
+// import axios from 'axios'
+import { reqUser } from '../../api/index'
 import { connect } from 'react-redux'
 import logo from './logo.png'
 import { saveUser } from '../../redux/action-creators'
@@ -76,24 +77,22 @@ class Login extends React.Component {
                 *         在浏览器端包了一层服务器
                 * 缺点：这只能在开发环境中应用
                 * */
-                axios.post('http://localhost:3000/api/login',{
+                reqUser(
                     username,
                     password
-                }).then((data)=>{
+                ).then((data)=>{
+                    console.log(data)
                     //如果请求下来的status是0说明用户名密码正确
-                    if (data.data.status === 0){
+
                         message.success('登陆成功');
 
                         //因为以后其他组件也要用token
                         //所以要把token存到store的state中
-                        this.props.saveUser(data.data.data)
+                        this.props.saveUser(data)
 
                         //跳转到localhost：3000/
                         this.props.history.replace('/')
-                    } else {
-                        //账号或密码不正确
-                        message.error(`${data.data.msg}`);
-                    }
+
                 }).catch((err)=>{
                     //请求数据出错
                     console.log(err)
