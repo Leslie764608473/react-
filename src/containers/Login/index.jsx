@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Checkbox,message } from 'antd'
 // import axios from 'axios'
 import { reqUser } from '../../api'
 import { connect } from 'react-redux'
-import logo from './logo.png'
+import logo from '../../assets/imges/logo.png'
 import  withCheckLogin from '../with-check-login/index'
 import { saveUser } from '../../redux/action-creators'
 
