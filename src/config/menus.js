@@ -2,54 +2,54 @@
 const menus = [
     {
         icon: 'home',
-        title: '首页',
+        title: 'menus.home',
         key: '/'
     },
     {
         icon: 'appstore',
-        title: '商品',
+        title: 'menus.products',
         key: '/products',
         children: [
             {
-                icon: 'home',
-                title: '商品管理',
-                key: '/product'
+                icon: 'bars',
+                title: 'menus.category',
+                key: '/category'
             },
             {
-                icon: 'home',
-                title: '分类管理',
-                key: '/category'
+                icon: 'tool',
+                title: 'menus.product',
+                key: '/product'
             }
         ]
     },
     {
         icon: 'user',
-        title: '用户管理',
+        title: 'menus.user',
         key: '/user'
     },
     {
-        icon: 'user',
-        title: '权限管理',
+        icon: 'safety',
+        title: 'menus.role',
         key: '/role'
     },
     {
-        icon: 'appstore',
-        title: '图形图表',
+        icon: 'area-chart',
+        title: 'menus.charts',
         key: '/charts',
         children: [
             {
-                icon: 'home',
-                title: '柱状图',
+                icon: 'bar-chart',
+                title: 'menus.bar',
                 key: '/charts/bar'
             },
             {
-                icon: 'home',
-                title: '折线图',
+                icon: 'line-chart',
+                title: 'menus.line',
                 key: '/charts/line'
             },
             {
-                icon: 'home',
-                title: '饼状图',
+                icon: 'pie-chart',
+                title: 'menus.pie',
                 key: '/charts/pie'
             }
         ]

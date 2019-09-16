@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import App from './App'
 import store from './redux/store';
 import '../src/assets/less/index.less'
+import './i18n'
 
 ReactDOM.render(<Provider store={store}><App/>
 </Provider>,document.getElementById('root'))

@@ -2,10 +2,11 @@ import {Icon, Menu} from "antd";
 import React from "react";
 import menus from '../../../config/menus'
 import { withRouter,Link } from 'react-router-dom'
+import { withTranslation } from 'react-i18next'
 
 const {SubMenu} = Menu;
 
-
+@withTranslation()
 @withRouter
  class Leftnav extends React.Component{
 
@@ -26,7 +27,7 @@ const {SubMenu} = Menu;
     render(){
         const { pathname } = this.props.location
         const result = this.findOpenKeys(pathname)
-
+        const { t } = this.props
         return (
             <Menu theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[result]} mode="inline">
 
@@ -35,13 +36,13 @@ const {SubMenu} = Menu;
 
                         if (menu.children){
                             return (
-                                <SubMenu key={menu.key} title={<span><Icon type={menu.icon}/><span>{menu.title}</span></span>}>
+                                <SubMenu key={menu.key} title={<span><Icon type={menu.icon}/><span>{t(menu.title)}</span></span>}>
                                     {
                                         menu.children.map((child)=>{
                                             return (<Menu.Item key={child.key}>
                                                 <Link to={child.key}>
                                                     <Icon type={child.icon}/>
-                                                    <span>{child.title}</span>
+                                                    <span>{t(child.title)}</span>
                                                 </Link>
                                             </Menu.Item>)
                                         })
@@ -53,7 +54,7 @@ const {SubMenu} = Menu;
                                 <Menu.Item key={menu.key}>
                                     <Link to={menu.key}>
                                         <Icon type={menu.icon}/>
-                                        <span>{menu.title}</span>
+                                        <span>{t(menu.title)}</span>
                                     </Link>
                                 </Menu.Item>
                             )
