@@ -1,13 +1,15 @@
 import React from 'react';
-import { Layout, Breadcrumb } from 'antd';
+import { Layout } from 'antd';
 import logo from '../../assets/imges/logo.png'
 import HeaderMain from './header-main/index'
 import './index.less'
 import Leftnav from './left-nav/index'
-const {Header, Content, Footer, Sider} = Layout;
+import withCheckLogin from '../../containers/with-check-login/index'
 
 
+const { Content, Footer, Sider } = Layout;
 
+@withCheckLogin
 class BasicLayout extends React.Component {
     state = {
         collapsed: false,
@@ -19,6 +21,8 @@ class BasicLayout extends React.Component {
         this.setState({collapsed});
 
     };
+
+
 
     render() {
         return (
@@ -34,12 +38,8 @@ class BasicLayout extends React.Component {
                 </Sider>
                 <Layout>
                     <HeaderMain/>
-                    <Content style={{margin: '0 16px'}}>
-                        <Breadcrumb style={{margin: '16px 0'}}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <div style={{padding: 24, background: '#fff', minHeight: 360}}>
+                    <Content style={{margin: '25px 16px 0 16px'}}>
+                        <div style={{padding: 24, background: '#fff', minHeight: 450 }}>
                             {
                                 this.props.children
                             }

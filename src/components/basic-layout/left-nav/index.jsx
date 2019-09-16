@@ -3,9 +3,16 @@ import React from "react";
 import menus from '../../../config/menus'
 import { withRouter,Link } from 'react-router-dom'
 import { withTranslation } from 'react-i18next'
+import { connect } from 'react-redux'
+import { setTitle } from '../../../redux/action-creators'
+
 
 const {SubMenu} = Menu;
 
+@connect(
+    null,
+    { setTitle }
+)
 @withTranslation()
 @withRouter
  class Leftnav extends React.Component{
@@ -24,12 +31,38 @@ const {SubMenu} = Menu;
         }
     }
 
+    findTitle = (key)=>{
+
+        for (let i = 0;i < menus.length;i++) {
+            if (menus[i].children){
+                for (let j = 0;j < menus[i].children.length;j++){
+                    if (menus[i].children[j].key === key){
+                        return menus[i].children[j].title
+                    }
+                }
+            }  else {
+                if (menus[i].key === key){
+                    return menus[i].title
+                }
+            }
+        }
+
+    }
+
+    setTitle =({key})=>{
+
+        let title = this.findTitle(key)
+        this.props.setTitle(
+            title
+        )
+    }
+
     render(){
         const { pathname } = this.props.location
         const result = this.findOpenKeys(pathname)
         const { t } = this.props
         return (
-            <Menu theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[result]} mode="inline">
+            <Menu onSelect={this.setTitle} theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[result]} mode="inline">
 
                 {
                     menus.map((menu)=>{

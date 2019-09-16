@@ -4,14 +4,16 @@ import routes from './config/routes'
 import BasicLayout from './components/basic-layout/index'
 import Login from "./containers/Login";
 import { Spin } from 'antd'
+
+
+
 export default class App extends React.Component{
     render() {
         return (
             <Suspense fallback={<Spin size="large"  />}>
                 <Router>
                     <Switch>
-                        <Route path='/login' component={Login}>
-                        </Route>
+                        <Route path='/login' component={Login} />
                         <BasicLayout>
                             <Switch>
                                 {
@@ -22,9 +24,6 @@ export default class App extends React.Component{
                             </Switch>
                         </BasicLayout>
                     </Switch>
-
-
-
                 </Router>
             </Suspense>
 

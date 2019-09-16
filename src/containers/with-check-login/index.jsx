@@ -22,11 +22,11 @@ function withCheckLogin(WrappedComponent) {
                 * 如果登陆过不变
                 * 如果没登陆过跳转到login
                 * */
-                const { token, location, history, match } = this.props;
+                const { token, location, history, match, children } = this.props;
                 const { pathname } = location;
                 if (pathname === '/login' && token) return <Redirect to="/"/>;
                 if (pathname !== '/login' && !token) return <Redirect to="/login"/>;
-                return <WrappedComponent location={location} history={history} match={match}/>;
+                return <WrappedComponent location={location} history={history} match={match} children={children}/>;
 
 
             }

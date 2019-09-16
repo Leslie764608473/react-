@@ -11,7 +11,6 @@
 import store from '../redux/store'
 import axios from 'axios'
 import { message } from 'antd'
-import { setItem,getItem,removeItem } from '../utils/storage'
 //创建一个axios实例
 const instance = axios.create({
     baseURL:'http://localhost:3000/api',
@@ -22,11 +21,10 @@ const instance = axios.create({
 instance.interceptors.request.use(
     (config)=>{
         //config是请求地址方法、请求头、请求体。。。。等
-        console.log(config)
         const { token } = store.getState().user
         //如果token不是空的就在请求头上加上一个authorization属性
         if (token){
-            config.headers.authorization = token
+            config.headers.authorization = `Bearer ${token}`
         }
 
         return config

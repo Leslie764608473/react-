@@ -1,12 +1,11 @@
 import React from 'react';
-import withCheckLogin from '../../containers/with-check-login/index'
 
-@withCheckLogin
+
 class Home extends React.Component{
     render() {
         return (
             <div>
-                Home
+                欢迎使用硅谷后台管理系统~~
             </div>
         );
     }

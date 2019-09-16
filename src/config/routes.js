@@ -1,5 +1,7 @@
 import Home from '../components/Home';
-import Login from '../containers/Login';
+
+import Category from '../components/category'
+
 
 const routes = [
     {
@@ -8,9 +10,9 @@ const routes = [
         component:Home
     },
     {
-        path:'/Login',
+        path:'/category',
         exact:true,
-        component:Login
+        component:Category
     }
 ];
 
