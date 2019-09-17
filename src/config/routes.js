@@ -1,6 +1,8 @@
 import Home from '../components/Home';
 
 import Category from '../components/category'
+import Product from '../components/Product'
+import Saveupdate from '../components/save-update'
 
 
 const routes = [
@@ -13,6 +15,16 @@ const routes = [
         path:'/category',
         exact:true,
         component:Category
+    },
+    {
+        path:'/product',
+        exact:true,
+        component:Product
+    },
+    {
+        path:'/product/saveupdate',
+        exact:true,
+        component:Saveupdate
     }
 ];
 

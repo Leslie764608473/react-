@@ -4,6 +4,7 @@ import routes from './config/routes'
 import BasicLayout from './components/basic-layout/index'
 import Login from "./containers/Login";
 import { Spin } from 'antd'
+import Notmatch from './components/notmatch'
 
 
 
@@ -21,6 +22,7 @@ export default class App extends React.Component{
                                         return <Route {...route} key={index}/>
                                     })
                                 }
+                                <Route component={Notmatch}/>
                             </Switch>
                         </BasicLayout>
                     </Switch>
