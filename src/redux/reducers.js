@@ -6,7 +6,7 @@
 //对处理数据的方法进行整合
 import { combineReducers } from 'redux'
 import { setItem,getItem,removeItem } from '../utils/storage'
-import { SAVE_USER,SET_TITLE,INIT_USER,GET_CATEGORIES_SUCCESS,ADD_CATEGORY } from './action-types'
+import {SAVE_USER, SET_TITLE, INIT_USER, GET_CATEGORIES_SUCCESS, ADD_CATEGORY, UPDATE_CATEGORY,DELETE_CATEGORY} from './action-types'
 
 //初始化状态数据
 const state = {
@@ -44,6 +44,17 @@ function categories(prevState = [],action) {
             return action.data
         case ADD_CATEGORY:
             return [...prevState,action.data]
+        case UPDATE_CATEGORY:
+            return prevState.map((category)=>{
+                if (category._id ===action.data._id) {
+                    return action.data
+                }
+                return category
+            })
+        case DELETE_CATEGORY:
+            return prevState.filter((category)=>{
+                return category._id !== action.data
+            })
         default:
             return prevState
     }

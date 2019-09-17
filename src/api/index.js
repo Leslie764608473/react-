@@ -7,3 +7,5 @@ import axios from './request'
 export const reqUser = (username,password)=>axios.post('/login',{username,password})
 export const reqGetCategories = ()=>axios.get('/category/get')
 export const addGetCategoriesSucess = (categoryName)=>axios.post('/category/add',{categoryName})
+export const reqUpdateCategory = (categoryId,categoryName)=>axios.post('/category/update',{categoryId,categoryName})
+export const reqDeleteCategory = (categoryId)=>axios.post('/category/delete',{categoryId})

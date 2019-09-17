@@ -1,23 +1,30 @@
 import React from 'react';
-import { Card,Button,Icon,Table,Modal,Form,Input } from 'antd';
+import { Card,Button,Icon,Table,Modal } from 'antd';
 import { connect } from 'react-redux'
-import { getCategories,addCategories } from '../../redux/action-creators'
+import { getCategories,addCategories,updateCategory,deleteCategory } from '../../redux/action-creators'
 import Myform from './Myform'
+import MyUpdateForm from './MyUpdateForm'
+import {reqDeleteCategory} from '../../api'
+
 
 
 
 
 @connect(
     (state)=>({categories:state.categories}),
-    { getCategories,addCategories }
+    { getCategories,addCategories,updateCategory,deleteCategory }
 )
 class Category extends React.Component{
 
     state = {
-        isVisible:false
+        isShowDelete:false,
+        isVisible:false,
+        isShowUpdate:false,
+        category:{}
     }
 
     addCategoryForm = React.createRef();
+    updateCategoryForm = React.createRef();
 
 
     columns = [
@@ -29,11 +36,10 @@ class Category extends React.Component{
         },
         {
             title: '操作',
-            dataIndex: 'operation',
-            render: () => {
+            render: (category) => {
                 return <div>
-                    <Button type="link">修改分类</Button>
-                    <Button type="link">删除分类</Button>
+                    <Button onClick={this.updateCategory('isShowUpdate',category)} type="link">修改分类</Button>
+                    <Button onClick={this.updateCategory('isShowDelete',category)} type="link">删除分类</Button>
                 </div>
             }
         }
@@ -41,12 +47,34 @@ class Category extends React.Component{
     ];
 
 
-    changeModal = (value)=>{
+
+    updateCategory = (key,category)=>{
         return ()=>{
             this.setState({
-                isVisible:value
+                [key]:true,
+                category
             })
         }
+    }
+
+
+    changeModal = (key,value)=>{
+        return ()=>{
+            this.setState({
+                [key]:value
+            })
+        }
+
+    }
+
+    deleteCategories = ()=>{
+        this.setState({
+            isShowDelete:false
+        })
+        const categoryId = this.state.category._id
+        console.log(categoryId)
+        //请求删除分类
+        this.props.deleteCategory(categoryId)
 
     }
 
@@ -79,14 +107,36 @@ class Category extends React.Component{
         this.props.getCategories()
     }
 
+    updateCategories = ()=>{
+        //校验表单
+        const form = this.updateCategoryForm.current
+        form.validateFields(async (err,value)=>{
+            if (!err){
+
+                const categoryId = this.state.category._id
+                const categoryName = value.categoryName
+
+                //发送请求
+                this.props.updateCategory(categoryId,categoryName)
+            }
+        })
+
+
+        //关闭对话框
+        this.setState({
+            isShowUpdate:false
+        })
+    }
+
+
     render() {
 
-        const { isVisible } = this.state
+        const { isVisible,isShowUpdate,isShowDelete } = this.state
         const { categories } =this.props
 
         return (
             <div>
-                <Card title="分类列表" extra={<Button onClick={this.changeModal(true)} type='primary'><Icon type='plus'/>分类列表</Button>} style={{ width: 1101 }}>
+                <Card title="分类列表" extra={<Button onClick={this.changeModal("isVisible",true)} type='primary'><Icon type='plus'/>分类列表</Button>} style={{ width: 1101 }}>
                     <Table
                         columns={this.columns}
                         dataSource={categories}
@@ -102,7 +152,7 @@ class Category extends React.Component{
                     <Modal
                         visible={isVisible}
                         title="添加分类"
-                        onCancel={this.changeModal(false)}
+                        onCancel={this.changeModal('isVisible',false)}
                         onOk={this.addCategory}
                         okText="确认"
                         cancelText="取消"
@@ -110,6 +160,33 @@ class Category extends React.Component{
                     >
                         <Myform ref={this.addCategoryForm}/>
                     </Modal>
+
+
+
+                    <Modal
+                        visible={isShowUpdate}
+                        title="修改分类"
+                        onCancel={this.changeModal('isShowUpdate',false)}
+                        width={300}
+                        onOk={this.updateCategories}
+                    >
+                        <MyUpdateForm ref={this.updateCategoryForm} categoryName={this.state.category.name}/>
+                    </Modal>
+
+
+                    <Modal
+                        visible={isShowDelete}
+                        title="删除分类"
+                        onCancel={this.changeModal('isShowDelete',false)}
+                        onOk={this.deleteCategories}
+                        okText="确认"
+                        cancelText="取消"
+                        width={300}
+                    >
+                    是否确认删除此分类
+                    </Modal>
+
+
                     </Card>
 
             </div>
