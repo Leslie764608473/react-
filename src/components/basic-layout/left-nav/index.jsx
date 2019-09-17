@@ -1,103 +1,105 @@
 import {Icon, Menu} from "antd";
 import React from "react";
 import menus from '../../../config/menus'
-import { withRouter,Link } from 'react-router-dom'
-import { withTranslation } from 'react-i18next'
-import { connect } from 'react-redux'
-import { setTitle } from '../../../redux/action-creators'
+import {withRouter, Link} from 'react-router-dom'
+import {withTranslation} from 'react-i18next'
+import {connect} from 'react-redux'
+import {setTitle} from '../../../redux/action-creators'
 
 
 const {SubMenu} = Menu;
 
 @connect(
-    null,
-    { setTitle }
+  null,
+  {setTitle}
 )
 @withTranslation()
 @withRouter
- class Leftnav extends React.Component{
+class Leftnav extends React.Component {
 
-    findOpenKeys=(pathname)=>{
-        for (let i = 0; i < menus.length; i++) {
-            const menu = menus[i];
+  findOpenKeys = (pathname) => {
+    for (let i = 0; i < menus.length; i++) {
+      const menu = menus[i];
+      if (menu.children) {
+        for (let j = 0; j < menu.children.length; j++) {
+          const cMenu = menu.children[j];
+          if (pathname.startsWith(cMenu.key)) {
+            return menu.key
+          }
+        }
+      }
+    }
+  }
+
+  findTitle = (key) => {
+
+    for (let i = 0; i < menus.length; i++) {
+      if (menus[i].children) {
+        for (let j = 0; j < menus[i].children.length; j++) {
+          if (menus[i].children[j].key === key) {
+            return menus[i].children[j].title
+          }
+        }
+      } else {
+        if (menus[i].key === key) {
+          return menus[i].title
+        }
+      }
+    }
+
+  }
+
+  setTitle = ({key}) => {
+
+    let title = this.findTitle(key)
+    this.props.setTitle(
+      title
+    )
+  }
+
+  render() {
+    const {pathname} = this.props.location
+    const result = this.findOpenKeys(pathname)
+    let a = pathname.startsWith('/product')?'/product':pathname
+    const {t} = this.props
+    return (
+      <Menu onSelect={this.setTitle} theme="dark" defaultSelectedKeys={[a]} defaultOpenKeys={[result]}
+            mode="inline">
+
+        {
+          menus.map((menu) => {
+
             if (menu.children) {
-                for (let j = 0; j < menu.children.length; j++) {
-                    const cMenu = menu.children[j];
-                    if (cMenu.key === pathname) {
-                        return menu.key;
-                    }
-                }
-            }
-        }
-    }
-
-    findTitle = (key)=>{
-
-        for (let i = 0;i < menus.length;i++) {
-            if (menus[i].children){
-                for (let j = 0;j < menus[i].children.length;j++){
-                    if (menus[i].children[j].key === key){
-                        return menus[i].children[j].title
-                    }
-                }
-            }  else {
-                if (menus[i].key === key){
-                    return menus[i].title
-                }
-            }
-        }
-
-    }
-
-    setTitle =({key})=>{
-
-        let title = this.findTitle(key)
-        this.props.setTitle(
-            title
-        )
-    }
-
-    render(){
-        const { pathname } = this.props.location
-        const result = this.findOpenKeys(pathname)
-        const { t } = this.props
-        return (
-            <Menu onSelect={this.setTitle} theme="dark" defaultSelectedKeys={[pathname]} defaultOpenKeys={[result]} mode="inline">
-
-                {
-                    menus.map((menu)=>{
-
-                        if (menu.children){
-                            return (
-                                <SubMenu key={menu.key} title={<span><Icon type={menu.icon}/><span>{t(menu.title)}</span></span>}>
-                                    {
-                                        menu.children.map((child)=>{
-                                            return (<Menu.Item key={child.key}>
-                                                <Link to={child.key}>
-                                                    <Icon type={child.icon}/>
-                                                    <span>{t(child.title)}</span>
-                                                </Link>
-                                            </Menu.Item>)
-                                        })
-                                    }
-                                </SubMenu>
-                            )
-                        } else {
-                            return (
-                                <Menu.Item key={menu.key}>
-                                    <Link to={menu.key}>
-                                        <Icon type={menu.icon}/>
-                                        <span>{t(menu.title)}</span>
-                                    </Link>
-                                </Menu.Item>
-                            )
-                        }
-
-
+              return (
+                <SubMenu key={menu.key} title={<span><Icon type={menu.icon}/><span>{t(menu.title)}</span></span>}>
+                  {
+                    menu.children.map((child) => {
+                      return (<Menu.Item key={child.key}>
+                        <Link to={child.key}>
+                          <Icon type={child.icon}/>
+                          <span>{t(child.title)}</span>
+                        </Link>
+                      </Menu.Item>)
                     })
-                }
+                  }
+                </SubMenu>
+              )
+            } else {
+              return (
+                <Menu.Item key={menu.key}>
+                  <Link to={menu.key}>
+                    <Icon type={menu.icon}/>
+                    <span>{t(menu.title)}</span>
+                  </Link>
+                </Menu.Item>
+              )
+            }
 
-                {/*<Menu.Item key="1">
+
+          })
+        }
+
+        {/*<Menu.Item key="1">
                     <Icon type="pie-chart"/>
                     <span>Option 1</span>
                 </Menu.Item>
@@ -134,10 +136,11 @@ const {SubMenu} = Menu;
                     <Icon type="file"/>
                     <span>File</span>
                 </Menu.Item>*/}
-            </Menu>
-        )
-    }
+      </Menu>
+    )
+  }
 }
+
 export default Leftnav
 
 

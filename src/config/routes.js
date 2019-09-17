@@ -2,7 +2,7 @@ import Home from '../components/Home';
 
 import Category from '../components/category'
 import Product from '../components/Product'
-import Saveupdate from '../components/save-update'
+import Saveupdate from '../components/Product/save-update'
 
 
 const routes = [
