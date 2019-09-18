@@ -38,10 +38,10 @@ class Product extends React.Component {
     },
     {
       title: '操作',
-      render: () => {
+      render: (product) => {
         return <div>
-          <Button type='link'>修改</Button>
-          <Button type='link'>删除</Button>
+          <Button onClick={this.updateProduct(product)} type='link'>修改</Button>
+          <Button type='link'>详情</Button>
 
         </div>
       }
@@ -49,8 +49,14 @@ class Product extends React.Component {
 
   ]
 
+  updateProduct = (product)=>{
+    return ()=>{
+      this.props.history.push('/product/saveupdate',product)
+    }
+  }
+
   componentDidMount() {
-    this.getProducts(1, 1,)
+    this.getProducts(1, 3,)
 
   }
   changeComponent = ()=>{
